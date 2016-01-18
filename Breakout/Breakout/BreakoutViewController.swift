@@ -66,7 +66,7 @@ class BreakoutViewController: UIViewController {
     
     private var paddleSize: CGSize {
         let paddleWidth = gameView.bounds.width / Constants.DefaultPaddleWidthRatio
-        let paddleHeight = Constants.DefaultPaddleHeight
+        let paddleHeight = paddleWidth / Constants.DefaultPaddleRatio
         return CGSize(width: paddleWidth, height: paddleHeight)
     }
 

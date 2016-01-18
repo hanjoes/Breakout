@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cTM-8u-0qx">
-                                <rect key="frame" x="0.0" y="20" width="600" height="588"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -27,7 +27,7 @@
                             <constraint firstItem="cTM-8u-0qx" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="AKQ-Rc-foH"/>
                             <constraint firstAttribute="trailing" secondItem="cTM-8u-0qx" secondAttribute="trailing" id="RUJ-Af-FIz"/>
                             <constraint firstItem="cTM-8u-0qx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="cu0-Gn-dkt"/>
-                            <constraint firstItem="cTM-8u-0qx" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" constant="8" symbolic="YES" id="iR5-ps-g6a"/>
+                            <constraint firstItem="cTM-8u-0qx" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="iR5-ps-g6a"/>
                         </constraints>
                     </view>
                     <connections>

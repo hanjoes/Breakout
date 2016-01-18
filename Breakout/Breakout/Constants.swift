@@ -21,6 +21,5 @@ struct Constants {
     /// Paddle related
     static let DefaultPaddleColor = UIColor.grayColor()
     static let DefaultPaddleWidthRatio: CGFloat = 6
-    static let DefaultPaddleRatio: CGFloat = 4
-    static let DefaultPaddleHeight: CGFloat = 20 // Constant to prevent a really "thin" paddle.
+    static let DefaultPaddleRatio: CGFloat = 5
 }
