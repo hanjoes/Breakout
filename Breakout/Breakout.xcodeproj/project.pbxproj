@@ -99,10 +99,7 @@
 			children = (
 				DB1771531C4CA46800FABE29 /* AppDelegate.swift */,
 				DB1771551C4CA46800FABE29 /* ViewController.swift */,
-				DB1771571C4CA46800FABE29 /* Main.storyboard */,
-				DB17715A1C4CA46800FABE29 /* Assets.xcassets */,
-				DB17715C1C4CA46800FABE29 /* LaunchScreen.storyboard */,
-				DB17715F1C4CA46800FABE29 /* Info.plist */,
+				DB1771811C4CC53500FABE29 /* Supporting Files */,
 			);
 			path = Breakout;
 			sourceTree = "<group>";
@@ -123,6 +120,17 @@
 				DB1771751C4CA46800FABE29 /* Info.plist */,
 			);
 			path = BreakoutUITests;
+			sourceTree = "<group>";
+		};
+		DB1771811C4CC53500FABE29 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DB1771571C4CA46800FABE29 /* Main.storyboard */,
+				DB17715A1C4CA46800FABE29 /* Assets.xcassets */,
+				DB17715C1C4CA46800FABE29 /* LaunchScreen.storyboard */,
+				DB17715F1C4CA46800FABE29 /* Info.plist */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
