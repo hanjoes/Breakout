@@ -1,5 +1,5 @@
 //
-//  Component.swift
+//  Paddle.swift
 //  Breakout
 //
 //  Created by Hanzhou Shi on 1/18/16.
@@ -8,8 +8,7 @@
 
 import UIKit
 
-class Brick: UIView {
-    
+class Paddle: UIView {
     // MARK: - Constructors
     
     convenience init(frame: CGRect, color: UIColor) {
@@ -19,9 +18,9 @@ class Brick: UIView {
     
     // MARK: - Properties
 
-    var brickColor = Constants.DefaultBrickColor {
+    var paddleColor = Constants.DefaultPaddleColor {
         didSet {
-            backgroundColor = brickColor
+            self.backgroundColor = paddleColor
             setNeedsDisplay()
         }
     }
@@ -30,8 +29,8 @@ class Brick: UIView {
     
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
-//    override func drawRect(rect: CGRect) {
-//        self.backgroundColor = UIColor.whiteColor()
-//    }
-
+    //    override func drawRect(rect: CGRect) {
+    //        self.backgroundColor = UIColor.whiteColor()
+    //    }
+    
 }

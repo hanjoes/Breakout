@@ -11,32 +11,28 @@ import UIKit
 class BreakoutViewController: UIViewController {
     @IBOutlet weak var gameView: UIView!
     
-    // MARK: - Properties
+    // MARK: - API
     
-    let numBricksPerRow = Constants.DefaultBrickNumPerRow
-    /// width * num + (num - 1) * margin = frameSize
-    /// width = (frameSize - (num-1) * margin) / num
-    var brickSize: CGSize {
-        let boundSize = gameView.bounds.width
-        let width = (boundSize - (numBricksPerRow-1) * Constants.DefaultBrickMarginX) / numBricksPerRow
-        let height = width / Constants.BrickAspectRatio
-        return CGSize(width: width, height: height)
-    }
-    
-    var bricks = [Brick]()
+    let numBricksPerRow = Int(Constants.DefaultBrickNumPerRow)
+    let numBrickLevels = Int(Constants.DefaultBrickLevels)
+    var gameInProgress = false
 
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        createBricks()
         // Do any additional setup after loading the view.
     }
     
     override func viewDidLayoutSubviews() {
         // setup game scene after all predefined subviews 
         // are settled.
+        animator.addBehavior(behavior)
+        // put bricks and paddle into their expected position
         layoutBricks()
+        layoutPaddle()
+        gameView.addSubview(paddle)
     }
 
     /*
@@ -49,36 +45,73 @@ class BreakoutViewController: UIViewController {
     }
     */
 
-    // MARK: - Private Methods
+    // MARK: - Brick Related Properties
+
+    private var bricks = [Brick]()
     
-    private func layoutBricks() {
-        for rowNum in 0..<Constants.DefaultBrickLevels {
-            layoutBrickAtRow(rowNum)
+    /// width * num + (num - 1) * margin = frameSize
+    /// width = (frameSize - (num-1) * margin) / num
+    private var brickSize: CGSize {
+        let boundSize = gameView.bounds.width
+        let width = (boundSize - (CGFloat(numBricksPerRow-1)) * Constants.DefaultBrickMarginX) / CGFloat(numBricksPerRow)
+        let height = width / Constants.BrickAspectRatio
+        return CGSize(width: width, height: height)
+    }
+
+    // MARK: - Paddle Related Properties
+    
+    private lazy var paddle: Paddle = {
+        return Paddle(frame: CGRect.zero, color: Constants.DefaultPaddleColor)
+    }()
+    
+    private var paddleSize: CGSize {
+        let paddleWidth = gameView.bounds.width / Constants.DefaultPaddleWidthRatio
+        let paddleHeight = Constants.DefaultPaddleHeight
+        return CGSize(width: paddleWidth, height: paddleHeight)
+    }
+
+    // MARK: - UIDynamicBehavior Related Properties
+    
+    private var behavior = BreakoutBehavior()
+    private lazy var animator: UIDynamicAnimator = {
+        let lazilyCreatedAnimator = UIDynamicAnimator(referenceView: self.gameView)
+        return lazilyCreatedAnimator
+    }()
+    
+    // MARK: - Helper functions
+    
+    private func createBricks() {
+        // create bricks only if there are no bricks
+        guard bricks.count == 0 else { return }
+        for _ in 0..<(numBricksPerRow*numBrickLevels) {
+            let brick = Brick(frame: CGRect.zero, color: Constants.DefaultBrickColor)
+            bricks.append(brick)
+            gameView.addSubview(brick)
         }
     }
     
-    private func layoutBrickAtRow(rowNum: Int) {
+    private func layoutBricks() {
+        for rowNum in 0..<numBrickLevels {
+            layoutBricksAtRow(rowNum)
+        }
+    }
+    
+    private func layoutBricksAtRow(rowNum: Int) {
         for offset in 0..<Int(numBricksPerRow) {
             let x = CGFloat(offset)*(brickSize.width + Constants.DefaultBrickMarginX)
             let y = CGFloat(rowNum)*(brickSize.height + Constants.DefaultBrickMarginY)
             let origin = CGPoint(x: x, y: y)
             let frame = CGRect(origin: origin, size: brickSize)
-            addBrick(Brick(frame: frame, color: UIColor.redColor()))
+            let brick = bricks[rowNum*numBricksPerRow+offset]
+            brick.frame = frame
         }
     }
     
-    private func addBrick(brick: Brick) {
-        gameView.addSubview(brick)
-        bricks.append(brick)
-    }
-    
-    // MARK: - Constants
-    
-    private struct Constants {
-        static let DefaultBrickNumPerRow: CGFloat = 10
-        static let BrickAspectRatio: CGFloat = 2.5
-        static let DefaultBrickLevels = 5
-        static let DefaultBrickMarginX: CGFloat = 5
-        static let DefaultBrickMarginY: CGFloat = 5
+    private func layoutPaddle() {
+        let midX = self.gameView.bounds.midX
+        let x = midX - self.paddleSize.width / 2
+        let y = self.gameView.bounds.maxY - self.paddleSize.height
+        let origin = CGPoint(x: x, y: y)
+        paddle.frame = CGRect(origin: origin, size: paddleSize)
     }
 }
