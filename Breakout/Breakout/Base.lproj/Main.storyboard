@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="GKw-64-Vdp">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <scenes>
-        <!--Breakout View Controller-->
+        <!--Game-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="BreakoutViewController" customModule="Breakout" customModuleProvider="target" sceneMemberID="viewController">
@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cTM-8u-0qx">
-                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="531"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -30,13 +30,51 @@
                             <constraint firstItem="cTM-8u-0qx" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="iR5-ps-g6a"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Game" id="Se7-8c-dRs"/>
                     <connections>
                         <outlet property="gameView" destination="cTM-8u-0qx" id="Pek-HP-6AS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="443" y="464"/>
+            <point key="canvasLocation" x="38" y="257"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="HZy-9d-Vmi">
+            <objects>
+                <viewController id="9i4-OK-V2x" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ypg-wK-7lL"/>
+                        <viewControllerLayoutGuide type="bottom" id="7o0-gm-7zh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="QjP-H4-NnV">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Settings" id="RbL-1a-Pgh"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lm8-PC-xdC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="38" y="931"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="bQW-4O-8P8">
+            <objects>
+                <tabBarController id="GKw-64-Vdp" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="8uq-33-gcG">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="uSU-pg-cvu"/>
+                        <segue destination="9i4-OK-V2x" kind="relationship" relationship="viewControllers" id="Pjr-5h-3EF"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3gx-4V-2Bw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-724" y="511"/>
         </scene>
     </scenes>
 </document>
