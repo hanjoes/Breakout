@@ -23,6 +23,10 @@ class BreakoutViewController: UIViewController {
         }
     }
     
+    @IBAction func shoot(sender: UITapGestureRecognizer) {
+        
+    }
+    
     // MARK: - API
     
     let numBricksPerRow = Int(Constants.DefaultBrickNumPerRow)
