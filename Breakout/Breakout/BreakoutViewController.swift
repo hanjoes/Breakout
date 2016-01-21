@@ -17,7 +17,7 @@ class BreakoutViewController: UIViewController {
         switch sender.state {
         case .Changed:
             var origin = paddle.frame.origin
-            origin.x = gesturePoint.x
+            origin.x = min(max(gesturePoint.x, 0), gameView.bounds.width-paddleSize.width)
             shiftPaddleTo(origin)
         default: break
         }
