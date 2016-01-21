@@ -15,6 +15,7 @@ class BreakoutViewController: UIViewController {
     
     let numBricksPerRow = Int(Constants.DefaultBrickNumPerRow)
     let numBrickLevels = Int(Constants.DefaultBrickLevels)
+    let numBalls = Constants.DefaultBallNum
     var gameInProgress = false
 
     // MARK: - Lifecycle
@@ -22,6 +23,7 @@ class BreakoutViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         createBricks()
+        createBalls()
         // Do any additional setup after loading the view.
     }
     
@@ -32,7 +34,7 @@ class BreakoutViewController: UIViewController {
         // put bricks and paddle into their expected position
         layoutBricks()
         layoutPaddle()
-        gameView.addSubview(paddle)
+        layoutBalls()
     }
 
     /*
@@ -48,6 +50,7 @@ class BreakoutViewController: UIViewController {
     // MARK: - Brick Related Properties
 
     private var bricks = [Brick]()
+    private var balls = [Ball]()
     
     /// width * num + (num - 1) * margin = frameSize
     /// width = (frameSize - (num-1) * margin) / num
@@ -80,6 +83,15 @@ class BreakoutViewController: UIViewController {
     
     // MARK: - Helper functions
     
+    private func createBalls() {
+        let actualNum = max(min(numBalls, 10), 1)
+        for _ in 0..<actualNum {
+            let ball = Ball(frame: CGRect.zero, color: Constants.DefaultBallColor)
+            balls.append(ball)
+            gameView.addSubview(ball)
+        }
+    }
+    
     private func createBricks() {
         // create bricks only if there are no bricks
         guard bricks.count == 0 else { return }
@@ -107,11 +119,25 @@ class BreakoutViewController: UIViewController {
         }
     }
     
+    private func layoutBalls() {
+        let ballScale = Constants.DefaultBallSize.width
+        var ballX = (gameView.bounds.width-CGFloat(balls.count)*ballScale) / 2
+        let ballY = gameView.bounds.height-paddleSize.height-ballScale
+        print("bounds: \(gameView.bounds) ballX: \(ballX)")
+        for ball in balls {
+            let origin = CGPoint(x: ballX, y: ballY)
+            let frame = CGRect(origin: origin, size: Constants.DefaultBallSize)
+            ballX += ballScale
+            ball.frame = frame
+        }
+    }
+    
     private func layoutPaddle() {
         let midX = self.gameView.bounds.midX
         let x = midX - self.paddleSize.width / 2
         let y = self.gameView.bounds.maxY - self.paddleSize.height
         let origin = CGPoint(x: x, y: y)
         paddle.frame = CGRect(origin: origin, size: paddleSize)
+        gameView.addSubview(paddle)
     }
 }

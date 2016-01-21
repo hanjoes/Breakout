@@ -22,4 +22,9 @@ struct Constants {
     static let DefaultPaddleColor = UIColor.grayColor()
     static let DefaultPaddleWidthRatio: CGFloat = 6
     static let DefaultPaddleRatio: CGFloat = 5
+    /// Ball related
+    static let DefaultBallNum = 1
+    static let DefaultBallNumMax = 10
+    static let DefaultBallSize = CGSize(width: 10, height: 10)
+    static let DefaultBallColor = UIColor.redColor()
 }
