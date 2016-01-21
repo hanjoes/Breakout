@@ -11,6 +11,19 @@ import UIKit
 class BreakoutViewController: UIViewController {
     @IBOutlet weak var gameView: UIView!
     
+    @IBAction func panPaddle(sender: UIPanGestureRecognizer) {
+        let gesturePoint = sender.locationInView(gameView)
+        
+        switch sender.state {
+        case .Began: fallthrough
+        case .Changed:
+            var origin = paddle.frame.origin
+            origin.x = gesturePoint.x
+            shiftPaddleTo(origin)
+        default: break
+        }
+    }
+    
     // MARK: - API
     
     let numBricksPerRow = Int(Constants.DefaultBrickNumPerRow)
@@ -139,5 +152,9 @@ class BreakoutViewController: UIViewController {
         let origin = CGPoint(x: x, y: y)
         paddle.frame = CGRect(origin: origin, size: paddleSize)
         gameView.addSubview(paddle)
+    }
+    
+    private func shiftPaddleTo(origin: CGPoint) {
+        paddle.frame = CGRect(origin: origin, size: paddleSize)
     }
 }
