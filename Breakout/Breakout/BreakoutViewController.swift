@@ -15,7 +15,6 @@ class BreakoutViewController: UIViewController {
         let gesturePoint = sender.locationInView(gameView)
         
         switch sender.state {
-        case .Began: fallthrough
         case .Changed:
             var origin = paddle.frame.origin
             origin.x = gesturePoint.x
