@@ -57,7 +57,6 @@
         <!--Settings-->
         <scene sceneID="HZy-9d-Vmi">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lm8-PC-xdC" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="9i4-OK-V2x" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ypg-wK-7lL"/>
@@ -70,13 +69,13 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Settings" id="RbL-1a-Pgh"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lm8-PC-xdC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="38" y="931"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="bQW-4O-8P8">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3gx-4V-2Bw" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tabBarController id="GKw-64-Vdp" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="8uq-33-gcG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
@@ -88,6 +87,7 @@
                         <segue destination="9i4-OK-V2x" kind="relationship" relationship="viewControllers" id="Pjr-5h-3EF"/>
                     </connections>
                 </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3gx-4V-2Bw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-724" y="511"/>
         </scene>

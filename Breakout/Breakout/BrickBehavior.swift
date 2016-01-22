@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BreakoutBehavior: UIDynamicBehavior {
+class BrickBehavior: UIDynamicBehavior {
     
     // MARK: - API
     

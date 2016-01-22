@@ -24,7 +24,6 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
     }
     
     @IBAction func shoot(sender: UITapGestureRecognizer) {
-        
     }
     
     // MARK: - API
@@ -55,7 +54,7 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
         layoutPaddle()
         layoutBalls()
         
-        animator.addBehavior(behavior)
+        animator.addBehavior(brickBehavior)
     }
 
     /*
@@ -105,7 +104,7 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
 
     // MARK: - UIDynamicBehavior Related Properties
     
-    private var behavior = BreakoutBehavior()
+    private var brickBehavior = BrickBehavior()
     private lazy var animator: UIDynamicAnimator = {
         let lazilyCreatedAnimator = UIDynamicAnimator(referenceView: self.gameView)
         return lazilyCreatedAnimator
@@ -164,7 +163,7 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
         var ballX = firstOffsetXForBalls
         let ballY = gameView.bounds.height-paddleSize.height-ballScale
 //        print("bounds: \(gameView.bounds) ballX: \(ballX)")
-        for ball in balls {
+        for ball in balls.filter({ (b) -> Bool in b.attached }) {
             let origin = CGPoint(x: ballX, y: ballY)
             let frame = CGRect(origin: origin, size: Constants.DefaultBallSize)
             ball.frame = frame
