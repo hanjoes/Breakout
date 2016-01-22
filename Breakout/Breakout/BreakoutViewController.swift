@@ -24,6 +24,7 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
     }
     
     @IBAction func shoot(sender: UITapGestureRecognizer) {
+        gameStart()
     }
     
     // MARK: - API
@@ -39,6 +40,7 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
         super.viewDidLoad()
         createBricks()
         createBalls()
+        animator.addBehavior(behavior)
     }
     
     override func viewDidLayoutSubviews() {
@@ -52,9 +54,6 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
         // in an idempotent way.
         layoutBricks()
         layoutPaddle()
-        layoutBalls()
-        
-        animator.addBehavior(behavior)
     }
 
     /*
@@ -118,8 +117,8 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
         for _ in 0..<actualNum {
             let ball = Ball(frame: CGRect.zero, color: Constants.DefaultBallColor)
             balls.append(ball)
-            ball.attachedPaddle = paddle
             gameView.addSubview(ball)
+            ball.attachedPaddle = paddle
         }
     }
     
@@ -163,11 +162,12 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
         var ballX = firstOffsetXForBalls
         let ballY = gameView.bounds.height-paddleSize.height-ballScale
 //        print("bounds: \(gameView.bounds) ballX: \(ballX)")
+
         for ball in balls.filter({ (b) -> Bool in b.attached }) {
             let origin = CGPoint(x: ballX, y: ballY)
             let frame = CGRect(origin: origin, size: Constants.DefaultBallSize)
             ball.frame = frame
-            
+
             // update the position for the next ball
             ballX += ballScale
         }
@@ -184,5 +184,30 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
     
     private func shiftPaddleTo(origin: CGPoint) {
         paddle.frame = CGRect(origin: origin, size: paddleSize)
+    }
+    
+    private func gameStart() {
+        // add all views to behavior
+        setupBehaviors()
+        shootBalls()
+    }
+    
+    private func setupBehaviors() {
+        for ball in balls { behavior.addBall(ball) }
+        for brick in bricks { behavior.addItem(brick) }
+        behavior.addItem(paddle)
+    }
+    
+    private func shootBalls() {
+        for ball in balls {
+            if !ball.attached { continue }
+            
+            ball.attached = false
+            
+            let p = UIPushBehavior(items: [ball], mode: .Instantaneous)
+            p.magnitude = 0.1
+            p.angle = 10
+            animator.addBehavior(p)
+        }
     }
 }
