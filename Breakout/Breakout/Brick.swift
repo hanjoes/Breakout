@@ -18,13 +18,6 @@ class Brick: UIView {
     }
     
     // MARK: - Properties
-
-    var brickColor = Constants.DefaultBrickColor {
-        didSet {
-            backgroundColor = brickColor
-            setNeedsDisplay()
-        }
-    }
     
     // MARK: - Lifecycle
     

@@ -14,6 +14,9 @@ class Ball: UIView {
         self.init(frame: frame)
         self.backgroundColor = color
     }
+    
+    var attached = true
+    var attachedPaddle: Paddle?
 
     /*
     // Only override drawRect: if you perform custom drawing.

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BreakoutViewController: UIViewController {
+class BreakoutViewController: UIViewController, PaddleDelegate {
     @IBOutlet weak var gameView: UIView!
     
     @IBAction func panPaddle(sender: UIPanGestureRecognizer) {
@@ -40,17 +40,22 @@ class BreakoutViewController: UIViewController {
         super.viewDidLoad()
         createBricks()
         createBalls()
-        // Do any additional setup after loading the view.
     }
     
     override func viewDidLayoutSubviews() {
         // setup game scene after all predefined subviews 
         // are settled.
-        animator.addBehavior(behavior)
+        super.viewDidLayoutSubviews()
+        
         // put bricks and paddle into their expected position
+        // we layout bricks and do the setup here because in a
+        // TabBarController we need to implement viewDidLayoutSubviews
+        // in an idempotent way.
         layoutBricks()
         layoutPaddle()
         layoutBalls()
+        
+        animator.addBehavior(behavior)
     }
 
     /*
@@ -62,11 +67,18 @@ class BreakoutViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    // MARK: - Paddle Delegate
+    func updateBallsFrame(frame: CGRect) {
+//        print("frame: \(frame)")
+        layoutBalls()
+    }
 
     // MARK: - Brick Related Properties
 
     private var bricks = [Brick]()
     private var balls = [Ball]()
+    private var ballAttachments = [Ball:UIAttachmentBehavior]()
     
     /// width * num + (num - 1) * margin = frameSize
     /// width = (frameSize - (num-1) * margin) / num
@@ -80,7 +92,9 @@ class BreakoutViewController: UIViewController {
     // MARK: - Paddle Related Properties
     
     private lazy var paddle: Paddle = {
-        return Paddle(frame: CGRect.zero, color: Constants.DefaultPaddleColor)
+        let paddle = Paddle(frame: CGRect.zero, color: Constants.DefaultPaddleColor)
+        paddle.delegate = self
+        return paddle
     }()
     
     private var paddleSize: CGSize {
@@ -97,6 +111,7 @@ class BreakoutViewController: UIViewController {
         return lazilyCreatedAnimator
     }()
     
+    
     // MARK: - Helper functions
     
     private func createBalls() {
@@ -104,6 +119,7 @@ class BreakoutViewController: UIViewController {
         for _ in 0..<actualNum {
             let ball = Ball(frame: CGRect.zero, color: Constants.DefaultBallColor)
             balls.append(ball)
+            ball.attachedPaddle = paddle
             gameView.addSubview(ball)
         }
     }
@@ -135,16 +151,26 @@ class BreakoutViewController: UIViewController {
         }
     }
     
+    private var firstOffsetXForBalls: CGFloat {
+        let ballsCount = CGFloat(balls.count)
+        let totalWidth = ballsCount*Constants.DefaultBallSize.width
+        let offset = (paddleSize.width - totalWidth) / 2
+        
+        return paddle.frame.minX + offset
+    }
+    
     private func layoutBalls() {
         let ballScale = Constants.DefaultBallSize.width
-        var ballX = (gameView.bounds.width-CGFloat(balls.count)*ballScale) / 2
+        var ballX = firstOffsetXForBalls
         let ballY = gameView.bounds.height-paddleSize.height-ballScale
-        print("bounds: \(gameView.bounds) ballX: \(ballX)")
+//        print("bounds: \(gameView.bounds) ballX: \(ballX)")
         for ball in balls {
             let origin = CGPoint(x: ballX, y: ballY)
             let frame = CGRect(origin: origin, size: Constants.DefaultBallSize)
-            ballX += ballScale
             ball.frame = frame
+            
+            // update the position for the next ball
+            ballX += ballScale
         }
     }
     
