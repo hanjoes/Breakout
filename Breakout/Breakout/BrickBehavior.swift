@@ -1,5 +1,5 @@
 //
-//  BreakoutBehavior.swift
+//  BrickBehavior.swift
 //  Breakout
 //
 //  Created by Hanzhou Shi on 1/18/16.
@@ -14,14 +14,33 @@ class BrickBehavior: UIDynamicBehavior {
     
     override init() {
         super.init()
-        addChildBehavior(gravity)
+        addChildBehavior(collider)
+        addChildBehavior(itemBehavior)
     }
     
     func addItem(item: UIView) {
-        gravity.addItem(item)
+        collider.addItem(item)
+        itemBehavior.addItem(item)
+    }
+    
+    func removeItem(item: UIView) {
+        collider.removeItem(item)
+        itemBehavior.removeItem(item)
     }
 
     // MARK: - Private
     
-    private var gravity = UIGravityBehavior()
+    private lazy var collider: UICollisionBehavior = {
+        let lazilyCreatedCollider = UICollisionBehavior()
+        lazilyCreatedCollider.translatesReferenceBoundsIntoBoundary = true
+        return lazilyCreatedCollider
+    }()
+    
+    private lazy var itemBehavior: UIDynamicItemBehavior = {
+        let lazilyCreatedItemBehavior = UIDynamicItemBehavior()
+        lazilyCreatedItemBehavior.elasticity = 1
+        lazilyCreatedItemBehavior.allowsRotation = false
+        return lazilyCreatedItemBehavior
+    }()
+    
 }
