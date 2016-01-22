@@ -54,7 +54,7 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
         layoutPaddle()
         layoutBalls()
         
-        animator.addBehavior(brickBehavior)
+        animator.addBehavior(behavior)
     }
 
     /*
@@ -104,7 +104,7 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
 
     // MARK: - UIDynamicBehavior Related Properties
     
-    private var brickBehavior = BrickBehavior()
+    private var behavior = BreakoutBehavior()
     private lazy var animator: UIDynamicAnimator = {
         let lazilyCreatedAnimator = UIDynamicAnimator(referenceView: self.gameView)
         return lazilyCreatedAnimator

@@ -1,5 +1,5 @@
 //
-//  BrickBehavior.swift
+//  BreakoutBehavior.swift
 //  Breakout
 //
 //  Created by Hanzhou Shi on 1/18/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BrickBehavior: UIDynamicBehavior {
+class BreakoutBehavior: UIDynamicBehavior {
     
     // MARK: - API
     
@@ -26,6 +26,14 @@ class BrickBehavior: UIDynamicBehavior {
     func removeItem(item: UIView) {
         collider.removeItem(item)
         itemBehavior.removeItem(item)
+    }
+    
+    func addBall(ball: UIView) {
+        collider.addItem(ball)
+    }
+    
+    func addPaddle(paddle: UIView) {
+        collider.addItem(paddle)
     }
 
     // MARK: - Private
