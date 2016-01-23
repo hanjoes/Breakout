@@ -23,4 +23,9 @@ class BezierUIView: UIView {
         paths[name] = path
         setNeedsDisplay()
     }
+    
+    func removePath(name: String) {
+        paths[name] = nil
+        setNeedsDisplay()
+    }
 }

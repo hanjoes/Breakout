@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BreakoutViewController: UIViewController {
+class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     @IBOutlet weak var gameScene: BezierUIView!
     
     @IBAction func panPaddle(sender: UIPanGestureRecognizer) {
@@ -38,7 +38,7 @@ class BreakoutViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        behavior.collisionDelegate = self
         createBalls()
         animator.addBehavior(behavior)
     }
@@ -66,10 +66,17 @@ class BreakoutViewController: UIViewController {
     }
     */
     
-    // MARK: - Paddle Delegate
-    func updateBallsFrame(frame: CGRect) {
-//        print("frame: \(frame)")
-        layoutBalls()
+    // MARK: - Collision Delegate
+    
+    func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying?, atPoint p: CGPoint) {
+        if let id = identifier as? String {
+            switch id {
+            case Constants.PaddleIdentifier: break // collides on the paddle
+            default: // collides on the brick
+                removeBrickFromView(id)
+                break
+            }
+        }
     }
 
     // MARK: - Brick Related Properties
@@ -203,6 +210,16 @@ class BreakoutViewController: UIViewController {
             p.angle = 10
             animator.addBehavior(p)
         }
+    }
+    
+    private func updateBallsFrame(frame: CGRect) {
+//        print("frame: \(frame)")
+        layoutBalls()
+    }
+    
+    private func removeBrickFromView(id: String) {
+        behavior.removeBarrier(id)
+        gameScene.removePath(id)
     }
 }
 

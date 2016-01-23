@@ -41,6 +41,14 @@ class BreakoutBehavior: UIDynamicBehavior {
         collider.removeBoundaryWithIdentifier(identifier)
     }
     
+    var collisionDelegate: UICollisionBehaviorDelegate? {
+        didSet {
+            if collisionDelegate != nil {
+                collider.collisionDelegate = collisionDelegate
+            }
+        }
+    }
+    
     // MARK: - Private
     
     private lazy var collider: UICollisionBehavior = {
@@ -53,6 +61,7 @@ class BreakoutBehavior: UIDynamicBehavior {
         let lazilyCreatedItemBehavior = UIDynamicItemBehavior()
         lazilyCreatedItemBehavior.elasticity = 1
         lazilyCreatedItemBehavior.friction = 0
+        lazilyCreatedItemBehavior.resistance = 0
         lazilyCreatedItemBehavior.allowsRotation = false
         return lazilyCreatedItemBehavior
     }()
