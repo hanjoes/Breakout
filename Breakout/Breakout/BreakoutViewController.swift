@@ -219,10 +219,7 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
             
             ball.attached = false
             // we actually shoot the ball here
-            let p = UIPushBehavior(items: [ball], mode: .Instantaneous)
-            p.magnitude = 0.1
-            p.angle = 10
-            animator.addBehavior(p)
+            behavior.pushItem(ball)
         }
     }
     
@@ -232,7 +229,7 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     }
     
     private func removeBrickFromView(id: String) {
-        print("removing barrier for id: \(id)")
+//        print("removing barrier for id: \(id)")
         if let brick = bricks[id] {
             behavior.removeBarrier(id)
             UIView.animateWithDuration(0.5, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut,

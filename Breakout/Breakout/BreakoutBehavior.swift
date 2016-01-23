@@ -17,6 +17,7 @@ class BreakoutBehavior: UIDynamicBehavior {
         addChildBehavior(collider)
         addChildBehavior(itemBehavior)
         addChildBehavior(gravity)
+        addChildBehavior(push)
     }
     
     func addItem(item: UIView) {
@@ -41,6 +42,12 @@ class BreakoutBehavior: UIDynamicBehavior {
         collider.removeBoundaryWithIdentifier(identifier)
     }
     
+    func pushItem(item: UIView) {
+        push.magnitude = Constants.DefaultPushMagnitude
+        push.angle = randomAngle()
+        push.addItem(item)
+    }
+    
     var collisionDelegate: UICollisionBehaviorDelegate? {
         didSet {
             if collisionDelegate != nil {
@@ -50,6 +57,10 @@ class BreakoutBehavior: UIDynamicBehavior {
     }
     
     // MARK: - Private
+    
+    private func randomAngle() -> CGFloat {
+        return 10
+    }
     
     private lazy var collider: UICollisionBehavior = {
         let lazilyCreatedCollider = UICollisionBehavior()
@@ -67,4 +78,6 @@ class BreakoutBehavior: UIDynamicBehavior {
     }()
     
     private var gravity = UIGravityBehavior()
+    
+    private var push = UIPushBehavior(items: [], mode: .Instantaneous)
 }
