@@ -165,8 +165,10 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
             let identifier = Constants.BrickIdentifierPrefix + "\(offset + rowNum * numBricksPerRow)"
             // make sure that the path exists
             if let brick = bricks[identifier] {
-                brick.frame = frame
-                behavior.addBarrier(brick.boundary, named: identifier)
+                if brick.alpha != 0.0 {
+                    brick.frame = frame
+                    behavior.addBarrier(brick.boundary, named: identifier)
+                }
             }
         }
     }
