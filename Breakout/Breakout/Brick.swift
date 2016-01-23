@@ -8,10 +8,15 @@
 
 import UIKit
 
-class Brick: CustomUIBezierPath {
+class Brick: UIView {
     // MARK: - Properties
     
-    var visible = true
+    convenience init(frame: CGRect, color: UIColor) {
+        self.init(frame: frame)
+        self.backgroundColor = color
+    }
+    
+    var boundary: UIBezierPath { return UIBezierPath(rect: frame) }
     
     // MARK: - Lifecycle
     

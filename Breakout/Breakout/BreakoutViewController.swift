@@ -40,6 +40,7 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
         super.viewDidLoad()
         behavior.collisionDelegate = self
         createBalls()
+        createBricks()
         animator.addBehavior(behavior)
     }
     
@@ -78,11 +79,12 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
             }
         }
     }
-
-    // MARK: - Brick Related Properties
-
+    
     private var balls = [Ball]()
     private var ballAttachments = [Ball:UIAttachmentBehavior]()
+    private var bricks = [String:Brick]()
+
+    // MARK: - Brick Related Properties
     
     /// width * num + (num - 1) * margin = frameSize
     /// width = (frameSize - (num-1) * margin) / num
@@ -126,6 +128,17 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     
     // MARK: - Helper functions
     
+    private func createBricks() {
+        // create bricks only if there are no bricks
+        guard bricks.count == 0 else { return }
+        for index in 0..<(numBricksPerRow*numBrickLevels) {
+            let identifier = Constants.BrickIdentifierPrefix + "\(index)"
+            let brick = Brick(frame: CGRect.zero, color: Constants.DefaultBrickColor)
+            bricks[identifier] = brick
+            gameScene.addSubview(brick)
+        }
+    }
+    
     private func createBalls() {
         let actualNum = max(min(numBalls, 10), 1)
         for _ in 0..<actualNum {
@@ -151,9 +164,10 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
             
             let identifier = Constants.BrickIdentifierPrefix + "\(offset + rowNum * numBricksPerRow)"
             // make sure that the path exists
-            let brick = Brick(rect: frame, color: Constants.DefaultBrickColor)
-            behavior.addBarrier(brick, named: identifier)
-            gameScene.setPath(brick, named: identifier)
+            if let brick = bricks[identifier] {
+                brick.frame = frame
+                behavior.addBarrier(brick.boundary, named: identifier)
+            }
         }
     }
     
@@ -200,11 +214,11 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     private func shootBalls() {
         for ball in balls {
             if !ball.attached { continue }
-            
+            // TODO: might not be a good place to add it to behavior
             behavior.addItem(ball)
             
             ball.attached = false
-            
+            // we actually shoot the ball here
             let p = UIPushBehavior(items: [ball], mode: .Instantaneous)
             p.magnitude = 0.1
             p.angle = 10
@@ -218,8 +232,13 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     }
     
     private func removeBrickFromView(id: String) {
-        behavior.removeBarrier(id)
-        gameScene.removePath(id)
+        print("removing barrier for id: \(id)")
+        if let brick = bricks[id] {
+            behavior.removeBarrier(id)
+            UIView.animateWithDuration(0.5, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut,
+                animations: { brick.alpha = 0.0 },
+                completion: { if $0 {  } })
+        }
     }
 }
 

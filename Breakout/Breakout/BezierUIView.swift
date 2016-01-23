@@ -25,7 +25,10 @@ class BezierUIView: UIView {
     }
     
     func removePath(name: String) {
-        paths[name] = nil
-        setNeedsDisplay()
+//        UIView.animateWithDuration(1.0, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+//            if let path = self.paths[name] {
+//                
+//            }
+//            }, completion: { if $0 { self.setNeedsDisplay() } })
     }
 }
