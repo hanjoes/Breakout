@@ -238,9 +238,3 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
         }
     }
 }
-
-private extension UIView {
-    func setPath() {
-        
-    }
-}
