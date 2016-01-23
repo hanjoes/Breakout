@@ -8,16 +8,10 @@
 
 import UIKit
 
-class Brick: UIView {
-    
-    // MARK: - Constructors
-    
-    convenience init(frame: CGRect, color: UIColor) {
-        self.init(frame: frame)
-        self.backgroundColor = color
-    }
-    
+class Brick: CustomUIBezierPath {
     // MARK: - Properties
+    
+    var visible = true
     
     // MARK: - Lifecycle
     

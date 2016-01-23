@@ -8,25 +8,11 @@
 
 import UIKit
 
-class Paddle: UIView {
+class Paddle: CustomUIBezierPath {
     // MARK: - Constructors
-    
-    convenience init(frame: CGRect, color: UIColor) {
-        self.init(frame: frame)
-        self.backgroundColor = color
-    }
     
     // MARK: - APIs
     
-    var delegate: PaddleDelegate?
-    
-    override var frame: CGRect {
-        willSet {
-            if delegate != nil {
-                delegate!.updateBallsFrame(newValue)
-            }
-        }
-    }
     
     // MARK: - Lifecycle
     
@@ -36,8 +22,4 @@ class Paddle: UIView {
 //            self.backgroundColor = UIColor.whiteColor()
 //        }
     
-}
-
-protocol PaddleDelegate {
-    func updateBallsFrame(frame: CGRect)
 }

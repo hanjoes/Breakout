@@ -19,6 +19,8 @@
 		DB17718B1C4CE36400FABE29 /* Paddle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17718A1C4CE36400FABE29 /* Paddle.swift */; };
 		DB17718D1C4CE5D700FABE29 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17718C1C4CE5D700FABE29 /* Constants.swift */; };
 		DB17718F1C4D2DD700FABE29 /* Ball.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB17718E1C4D2DD700FABE29 /* Ball.swift */; };
+		DBC561F81C52BC5900D6E6DD /* BezierUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC561F71C52BC5900D6E6DD /* BezierUIView.swift */; };
+		DBC561FA1C52D42900D6E6DD /* CustomUIBezierPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC561F91C52D42900D6E6DD /* CustomUIBezierPath.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +59,8 @@
 		DB17718A1C4CE36400FABE29 /* Paddle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paddle.swift; sourceTree = "<group>"; };
 		DB17718C1C4CE5D700FABE29 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		DB17718E1C4D2DD700FABE29 /* Ball.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ball.swift; sourceTree = "<group>"; };
+		DBC561F71C52BC5900D6E6DD /* BezierUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BezierUIView.swift; sourceTree = "<group>"; };
+		DBC561F91C52D42900D6E6DD /* CustomUIBezierPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomUIBezierPath.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,9 +112,10 @@
 			isa = PBXGroup;
 			children = (
 				DB1771851C4CC67800FABE29 /* Components */,
-				DB1771841C4CC5A400FABE29 /* Controller */,
 				DB1771571C4CA46800FABE29 /* Main.storyboard */,
+				DB1771821C4CC59400FABE29 /* BreakoutViewController.swift */,
 				DB1771881C4CD90E00FABE29 /* BreakoutBehavior.swift */,
+				DBC561F71C52BC5900D6E6DD /* BezierUIView.swift */,
 				DB1771531C4CA46800FABE29 /* AppDelegate.swift */,
 				DB17718C1C4CE5D700FABE29 /* Constants.swift */,
 				DB1771811C4CC53500FABE29 /* Supporting Files */,
@@ -146,20 +151,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		DB1771841C4CC5A400FABE29 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				DB1771821C4CC59400FABE29 /* BreakoutViewController.swift */,
-			);
-			name = Controller;
-			sourceTree = "<group>";
-		};
 		DB1771851C4CC67800FABE29 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				DB1771861C4CC6D400FABE29 /* Brick.swift */,
 				DB17718A1C4CE36400FABE29 /* Paddle.swift */,
 				DB17718E1C4D2DD700FABE29 /* Ball.swift */,
+				DBC561F91C52D42900D6E6DD /* CustomUIBezierPath.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -305,6 +303,8 @@
 				DB1771541C4CA46800FABE29 /* AppDelegate.swift in Sources */,
 				DB17718F1C4D2DD700FABE29 /* Ball.swift in Sources */,
 				DB17718D1C4CE5D700FABE29 /* Constants.swift in Sources */,
+				DBC561F81C52BC5900D6E6DD /* BezierUIView.swift in Sources */,
+				DBC561FA1C52D42900D6E6DD /* CustomUIBezierPath.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

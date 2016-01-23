@@ -32,21 +32,20 @@ class BreakoutBehavior: UIDynamicBehavior {
         item.removeFromSuperview()
     }
     
-    func addBall(ball: Ball) {
-        collider.addItem(ball)
-        itemBehavior.addItem(ball)
+    func addBarrier(path: UIBezierPath, named name: String) {
+        collider.removeBoundaryWithIdentifier(name)
+        collider.addBoundaryWithIdentifier(name, forPath: path)
     }
     
-    func addPaddle(paddle: Paddle) {
-        collider.addItem(paddle)
+    func removeBarrier(identifier: String) {
+        collider.removeBoundaryWithIdentifier(identifier)
     }
-
+    
     // MARK: - Private
     
     private lazy var collider: UICollisionBehavior = {
         let lazilyCreatedCollider = UICollisionBehavior()
         lazilyCreatedCollider.translatesReferenceBoundsIntoBoundary = true
-//        lazilyCreatedCollider.addBoundaryWithIdentifier(<#T##identifier: NSCopying##NSCopying#>, forPath: <#T##UIBezierPath#>)
         return lazilyCreatedCollider
     }()
     

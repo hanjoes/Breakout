@@ -27,4 +27,8 @@ struct Constants {
     static let DefaultBallNumMax = 10
     static let DefaultBallSize = CGSize(width: 10, height: 10)
     static let DefaultBallColor = UIColor.redColor()
+    
+    // Identifiers
+    static let BrickIdentifierPrefix = "BrickIdentifier_"
+    static let PaddleIdentifier = "PaddleIdentifier"
 }

@@ -8,16 +8,16 @@
 
 import UIKit
 
-class BreakoutViewController: UIViewController, PaddleDelegate {
-    @IBOutlet weak var gameView: UIView!
+class BreakoutViewController: UIViewController {
+    @IBOutlet weak var gameScene: BezierUIView!
     
     @IBAction func panPaddle(sender: UIPanGestureRecognizer) {
-        let gesturePoint = sender.locationInView(gameView)
+        let gesturePoint = sender.locationInView(gameScene)
         
         switch sender.state {
         case .Changed:
-            var origin = paddle.frame.origin
-            origin.x = min(max(gesturePoint.x, 0), gameView.bounds.width-paddleSize.width)
+            var origin = paddleFrame.origin
+            origin.x = min(max(gesturePoint.x, 0), gameScene.bounds.width-paddleSize.width)
             shiftPaddleTo(origin)
         default: break
         }
@@ -38,7 +38,7 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        createBricks()
+
         createBalls()
         animator.addBehavior(behavior)
     }
@@ -74,14 +74,13 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
 
     // MARK: - Brick Related Properties
 
-    private var bricks = [Brick]()
     private var balls = [Ball]()
     private var ballAttachments = [Ball:UIAttachmentBehavior]()
     
     /// width * num + (num - 1) * margin = frameSize
     /// width = (frameSize - (num-1) * margin) / num
     private var brickSize: CGSize {
-        let boundSize = gameView.bounds.width
+        let boundSize = gameScene.bounds.width
         let width = (boundSize - (CGFloat(numBricksPerRow-1)) * Constants.DefaultBrickMarginX) / CGFloat(numBricksPerRow)
         let height = width / Constants.BrickAspectRatio
         return CGSize(width: width, height: height)
@@ -89,14 +88,22 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
 
     // MARK: - Paddle Related Properties
     
-    private lazy var paddle: Paddle = {
-        let paddle = Paddle(frame: CGRect.zero, color: Constants.DefaultPaddleColor)
-        paddle.delegate = self
-        return paddle
-    }()
+    private var paddleFrame: CGRect {
+        let midX = gameScene.bounds.midX
+        let x = midX - paddleSize.width / 2
+        let y = gameScene.bounds.maxY - paddleSize.height
+        let origin = CGPoint(x: x, y: y)
+        return CGRect(origin: origin, size: paddleSize)
+    }
+    
+    private var paddle: Paddle = Paddle(rect: CGRect.zero, color: Constants.DefaultPaddleColor) {
+        willSet {
+            updateBallsFrame(newValue.bounds)
+        }
+    }
     
     private var paddleSize: CGSize {
-        let paddleWidth = gameView.bounds.width / Constants.DefaultPaddleWidthRatio
+        let paddleWidth = gameScene.bounds.width / Constants.DefaultPaddleWidthRatio
         let paddleHeight = paddleWidth / Constants.DefaultPaddleRatio
         return CGSize(width: paddleWidth, height: paddleHeight)
     }
@@ -105,7 +112,7 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
     
     private var behavior = BreakoutBehavior()
     private lazy var animator: UIDynamicAnimator = {
-        let lazilyCreatedAnimator = UIDynamicAnimator(referenceView: self.gameView)
+        let lazilyCreatedAnimator = UIDynamicAnimator(referenceView: self.gameScene)
         return lazilyCreatedAnimator
     }()
     
@@ -117,18 +124,8 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
         for _ in 0..<actualNum {
             let ball = Ball(frame: CGRect.zero, color: Constants.DefaultBallColor)
             balls.append(ball)
-            gameView.addSubview(ball)
+            gameScene.addSubview(ball)
             ball.attachedPaddle = paddle
-        }
-    }
-    
-    private func createBricks() {
-        // create bricks only if there are no bricks
-        guard bricks.count == 0 else { return }
-        for _ in 0..<(numBricksPerRow*numBrickLevels) {
-            let brick = Brick(frame: CGRect.zero, color: Constants.DefaultBrickColor)
-            bricks.append(brick)
-            gameView.addSubview(brick)
         }
     }
     
@@ -144,8 +141,12 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
             let y = CGFloat(rowNum)*(brickSize.height + Constants.DefaultBrickMarginY)
             let origin = CGPoint(x: x, y: y)
             let frame = CGRect(origin: origin, size: brickSize)
-            let brick = bricks[rowNum*numBricksPerRow+offset]
-            brick.frame = frame
+            
+            let identifier = Constants.BrickIdentifierPrefix + "\(offset + rowNum * numBricksPerRow)"
+            // make sure that the path exists
+            let brick = Brick(rect: frame, color: Constants.DefaultBrickColor)
+            behavior.addBarrier(brick, named: identifier)
+            gameScene.setPath(brick, named: identifier)
         }
     }
     
@@ -153,15 +154,14 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
         let ballsCount = CGFloat(balls.count)
         let totalWidth = ballsCount*Constants.DefaultBallSize.width
         let offset = (paddleSize.width - totalWidth) / 2
-        
-        return paddle.frame.minX + offset
+        return paddle.bounds.minX + offset
     }
     
     private func layoutBalls() {
         let ballScale = Constants.DefaultBallSize.width
         var ballX = firstOffsetXForBalls
-        let ballY = gameView.bounds.height-paddleSize.height-ballScale
-//        print("bounds: \(gameView.bounds) ballX: \(ballX)")
+        let ballY = gameScene.bounds.height-paddleSize.height-ballScale
+//        print("bounds: \(gameScene.bounds) ballX: \(ballX)")
 
         for ball in balls.filter({ (b) -> Bool in b.attached }) {
             let origin = CGPoint(x: ballX, y: ballY)
@@ -174,33 +174,27 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
     }
     
     private func layoutPaddle() {
-        let midX = self.gameView.bounds.midX
-        let x = midX - self.paddleSize.width / 2
-        let y = self.gameView.bounds.maxY - self.paddleSize.height
-        let origin = CGPoint(x: x, y: y)
-        paddle.frame = CGRect(origin: origin, size: paddleSize)
-        gameView.addSubview(paddle)
+        paddle = Paddle(rect: paddleFrame, color: Constants.DefaultPaddleColor)
+        gameScene.setPath(paddle, named: Constants.PaddleIdentifier)
+        behavior.addBarrier(paddle, named: Constants.PaddleIdentifier)
     }
     
     private func shiftPaddleTo(origin: CGPoint) {
-        paddle.frame = CGRect(origin: origin, size: paddleSize)
+        paddle = Paddle(rect: CGRect(origin: origin, size: paddleSize), color: Constants.DefaultPaddleColor)
+        gameScene.setPath(paddle, named: Constants.PaddleIdentifier)
+        behavior.addBarrier(paddle, named: Constants.PaddleIdentifier)
     }
     
     private func gameStart() {
         // add all views to behavior
-        setupBehaviors()
         shootBalls()
-    }
-    
-    private func setupBehaviors() {
-        for ball in balls { behavior.addBall(ball) }
-        for brick in bricks { behavior.addItem(brick) }
-        behavior.addItem(paddle)
     }
     
     private func shootBalls() {
         for ball in balls {
             if !ball.attached { continue }
+            
+            behavior.addItem(ball)
             
             ball.attached = false
             
@@ -209,5 +203,11 @@ class BreakoutViewController: UIViewController, PaddleDelegate {
             p.angle = 10
             animator.addBehavior(p)
         }
+    }
+}
+
+private extension UIView {
+    func setPath() {
+        
     }
 }
