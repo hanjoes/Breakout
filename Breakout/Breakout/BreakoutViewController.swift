@@ -48,7 +48,6 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
         // setup game scene after all predefined subviews 
         // are settled.
         super.viewDidLayoutSubviews()
-        print("didLayoutSubView")
 
         // put bricks and paddle into their expected position
         // we layout bricks and do the setup here because in a
@@ -113,7 +112,7 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     }
     
     private var paddle: Paddle = Paddle(rect: CGRect.zero, color: Constants.DefaultPaddleColor) {
-        willSet {
+        didSet {
             updateBallsFrame()
             updateLowerBound()
         }
