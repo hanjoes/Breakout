@@ -20,6 +20,9 @@ class CustomUIBezierPath: UIBezierPath {
     var strokeColor: UIColor = UIColor.blackColor()
     var pathType = CustomUIBezierPathType.FillType
     
+    var beginPoint: CGPoint?
+    var endPoint: CGPoint?
+    
     convenience init(rect: CGRect, color: UIColor) {
         self.init()
         self.init(rect: rect)
@@ -27,10 +30,12 @@ class CustomUIBezierPath: UIBezierPath {
         fillColor = color
     }
     
-    convenience init(type: CustomUIBezierPathType) {
+    convenience init(type: CustomUIBezierPathType, from: CGPoint, to: CGPoint) {
         self.init()
         
         pathType = type
+        beginPoint = from
+        endPoint = to
     }
     
     func draw() {
@@ -39,6 +44,8 @@ class CustomUIBezierPath: UIBezierPath {
             fillColor.setFill()
             self.fill()
         case .LineType:
+            self.moveToPoint(beginPoint!)
+            self.addLineToPoint(endPoint!)
             strokeColor.setStroke()
             self.stroke()
         }

@@ -18,7 +18,7 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
         case .Changed:
             var origin = paddleFrame.origin
             origin.x = min(max(gesturePoint.x, 0), gameScene.bounds.width-paddleSize.width)
-            shiftPaddleTo(origin)
+            paddleFrame = CGRect(origin: origin, size: paddleSize)
         default: break
         }
     }
@@ -48,13 +48,14 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
         // setup game scene after all predefined subviews 
         // are settled.
         super.viewDidLayoutSubviews()
-        
+        print("didLayoutSubView")
+
         // put bricks and paddle into their expected position
         // we layout bricks and do the setup here because in a
         // TabBarController we need to implement viewDidLayoutSubviews
         // in an idempotent way.
         layoutBricks()
-        layoutPaddle()
+        layoutPaddle(paddleFrame)
     }
 
     /*
@@ -98,11 +99,17 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     // MARK: - Paddle Related Properties
     
     private var paddleFrame: CGRect {
-        let midX = gameScene.bounds.midX
-        let x = midX - paddleSize.width / 2
-        let y = lowerBoundY - paddleSize.height
-        let origin = CGPoint(x: x, y: y)
-        return CGRect(origin: origin, size: paddleSize)
+        get {
+            let midX = gameScene.bounds.midX
+            let x = midX - paddleSize.width / 2
+            let y = lowerBoundY - paddleSize.height
+            let origin = CGPoint(x: x, y: y)
+            return CGRect(origin: origin, size: paddleSize)
+        }
+        
+        set {
+            layoutPaddle(newValue)
+        }
     }
     
     private var paddle: Paddle = Paddle(rect: CGRect.zero, color: Constants.DefaultPaddleColor) {
@@ -120,7 +127,7 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     
     // MARK: - Lower Bound Related
     
-    private var lowerBound = CustomUIBezierPath(type: .LineType)
+    private var lowerBound = CustomUIBezierPath(type: .LineType, from: CGPoint.zero, to: CGPoint.zero)
     
     private var lowerBoundY: CGFloat {
         return gameScene.bounds.maxY - gameScene.bounds.maxY / Constants.DefaultLowerBoundHeightRatio
@@ -206,20 +213,14 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     }
     
     private func layoutLowerBound() {
-        lowerBound.moveToPoint(CGPoint(x: gameScene.bounds.minX, y: paddle.bounds.maxY))
-        lowerBound.addLineToPoint(CGPoint(x: gameScene.bounds.maxX, y: paddle.bounds.maxY))
+        let from = CGPoint(x: gameScene.bounds.minX, y: lowerBoundY)
+        let to = CGPoint(x: gameScene.bounds.maxX, y: lowerBoundY)
+        lowerBound = CustomUIBezierPath(type: .LineType, from: from, to: to)
         gameScene.setPath(lowerBound, named: Constants.LowerBoundIdentifier)
     }
     
-    
-    private func layoutPaddle() {
-        paddle = Paddle(rect: paddleFrame, color: Constants.DefaultPaddleColor)
-        gameScene.setPath(paddle, named: Constants.PaddleIdentifier)
-        behavior.addBarrier(paddle, named: Constants.PaddleIdentifier)
-    }
-    
-    private func shiftPaddleTo(origin: CGPoint) {
-        paddle = Paddle(rect: CGRect(origin: origin, size: paddleSize), color: Constants.DefaultPaddleColor)
+    private func layoutPaddle(rect: CGRect) {
+        paddle = Paddle(rect: rect, color: Constants.DefaultPaddleColor)
         gameScene.setPath(paddle, named: Constants.PaddleIdentifier)
         behavior.addBarrier(paddle, named: Constants.PaddleIdentifier)
     }
