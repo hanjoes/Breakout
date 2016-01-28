@@ -100,14 +100,15 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     private var paddleFrame: CGRect {
         let midX = gameScene.bounds.midX
         let x = midX - paddleSize.width / 2
-        let y = gameScene.bounds.maxY - paddleSize.height
+        let y = lowerBoundY - paddleSize.height
         let origin = CGPoint(x: x, y: y)
         return CGRect(origin: origin, size: paddleSize)
     }
     
     private var paddle: Paddle = Paddle(rect: CGRect.zero, color: Constants.DefaultPaddleColor) {
         willSet {
-            updateBallsFrame(newValue.bounds)
+            updateBallsFrame()
+            updateLowerBound()
         }
     }
     
@@ -115,6 +116,14 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
         let paddleWidth = gameScene.bounds.width / Constants.DefaultPaddleWidthRatio
         let paddleHeight = paddleWidth / Constants.DefaultPaddleRatio
         return CGSize(width: paddleWidth, height: paddleHeight)
+    }
+    
+    // MARK: - Lower Bound Related
+    
+    private var lowerBound = CustomUIBezierPath(type: .LineType)
+    
+    private var lowerBoundY: CGFloat {
+        return gameScene.bounds.maxY - gameScene.bounds.maxY / Constants.DefaultLowerBoundHeightRatio
     }
 
     // MARK: - UIDynamicBehavior Related Properties
@@ -183,7 +192,7 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     private func layoutBalls() {
         let ballScale = Constants.DefaultBallSize.width
         var ballX = firstOffsetXForBalls
-        let ballY = gameScene.bounds.height-paddleSize.height-ballScale
+        let ballY = lowerBoundY-paddleSize.height-ballScale
 //        print("bounds: \(gameScene.bounds) ballX: \(ballX)")
 
         for ball in balls.filter({ (b) -> Bool in b.attached }) {
@@ -195,6 +204,13 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
             ballX += ballScale
         }
     }
+    
+    private func layoutLowerBound() {
+        lowerBound.moveToPoint(CGPoint(x: gameScene.bounds.minX, y: paddle.bounds.maxY))
+        lowerBound.addLineToPoint(CGPoint(x: gameScene.bounds.maxX, y: paddle.bounds.maxY))
+        gameScene.setPath(lowerBound, named: Constants.LowerBoundIdentifier)
+    }
+    
     
     private func layoutPaddle() {
         paddle = Paddle(rect: paddleFrame, color: Constants.DefaultPaddleColor)
@@ -225,9 +241,13 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
         }
     }
     
-    private func updateBallsFrame(frame: CGRect) {
+    private func updateBallsFrame() {
 //        print("frame: \(frame)")
         layoutBalls()
+    }
+    
+    private func updateLowerBound() {
+        layoutLowerBound()
     }
     
     private func removeBrickFromView(id: String) {

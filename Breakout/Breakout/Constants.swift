@@ -28,8 +28,13 @@ struct Constants {
     static let DefaultBallSize = CGSize(width: 10, height: 10)
     static let DefaultBallColor = UIColor.redColor()
     static let DefaultPushMagnitude: CGFloat = 0.09
+    /// Lower bound
+    static let DefaultLowerBoundColor = UIColor.blackColor()
+    static let DefaultLowerBoundHeightRatio: CGFloat = 10
     
     /// Identifiers
     static let BrickIdentifierPrefix = "BrickIdentifier_"
     static let PaddleIdentifier = "PaddleIdentifier"
+    static let LowerBoundIdentifier = "LowerBoundIdentifier"
+
 }

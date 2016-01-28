@@ -11,10 +11,7 @@ import UIKit
 class BezierUIView: UIView {
     
     override func drawRect(rect: CGRect) {
-        for (_, path) in paths {
-            path.fillColor.setFill()
-            path.fill()
-        }
+        for (_, path) in paths { path.draw() }
     }
     
     var paths = [String:CustomUIBezierPath]()
@@ -25,10 +22,7 @@ class BezierUIView: UIView {
     }
     
     func removePath(name: String) {
-//        UIView.animateWithDuration(1.0, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
-//            if let path = self.paths[name] {
-//                
-//            }
-//            }, completion: { if $0 { self.setNeedsDisplay() } })
+        paths[name] = nil
+        setNeedsDisplay()
     }
 }
