@@ -204,7 +204,6 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
             let origin = CGPoint(x: ballX, y: ballY)
             let frame = CGRect(origin: origin, size: Constants.DefaultBallSize)
             ball.frame = frame
-            print("laying out ball")
             gameScene.addSubview(ball)
             // update the position for the next ball
             ballX += ballScale
