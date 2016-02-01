@@ -232,7 +232,6 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     
     private func shootBalls() {
         for ball in balls {
-            if !ball.attached { continue }
             ball.attached = false
             // we actually shoot the ball here
             behavior.pushItem(ball)
@@ -270,7 +269,7 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
         
         // reset balls status such that they will be "re-attached" to paddle.
         let _ = balls.map {
-            behavior.stopItem($0)
+            behavior.removeItem($0)
             $0.attached = true
         }
         

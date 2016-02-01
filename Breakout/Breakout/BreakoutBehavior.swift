@@ -17,7 +17,6 @@ class BreakoutBehavior: UIDynamicBehavior {
         addChildBehavior(collider)
         addChildBehavior(itemBehavior)
         addChildBehavior(gravity)
-        addChildBehavior(push)
     }
     
     func addItem(item: UIView) {
@@ -46,14 +45,18 @@ class BreakoutBehavior: UIDynamicBehavior {
     
     func pushItem(item: UIView) {
         addItem(item)
+
+        let push = UIPushBehavior(items: [], mode: .Instantaneous)
         push.magnitude = Constants.DefaultPushMagnitude
         push.angle = randomAngle()
         push.addItem(item)
-    }
-    
-    func stopItem(item: UIView) {
-        push.removeItem(item)
-        removeItem(item)
+        
+        addChildBehavior(push)
+        push.action = {
+            [unowned self] in
+            push.removeItem(item)
+            self.removeChildBehavior(push)
+        }
     }
     
     var collisionDelegate: UICollisionBehaviorDelegate? {
@@ -86,6 +89,4 @@ class BreakoutBehavior: UIDynamicBehavior {
     }()
     
     private var gravity = UIGravityBehavior()
-    
-    private var push = UIPushBehavior(items: [], mode: .Instantaneous)
 }
