@@ -21,6 +21,7 @@ class BreakoutBehavior: UIDynamicBehavior {
     }
     
     func addItem(item: UIView) {
+        dynamicAnimator?.referenceView?.addSubview(item)
 //        gravity.addItem(item)
         collider.addItem(item)
         itemBehavior.addItem(item)
@@ -44,9 +45,15 @@ class BreakoutBehavior: UIDynamicBehavior {
     }
     
     func pushItem(item: UIView) {
+        addItem(item)
         push.magnitude = Constants.DefaultPushMagnitude
         push.angle = randomAngle()
         push.addItem(item)
+    }
+    
+    func stopItem(item: UIView) {
+        push.removeItem(item)
+        removeItem(item)
     }
     
     var collisionDelegate: UICollisionBehaviorDelegate? {

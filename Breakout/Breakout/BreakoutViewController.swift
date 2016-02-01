@@ -73,7 +73,7 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
         if let id = identifier as? String {
             switch id {
             case Constants.PaddleIdentifier: break // collides on the paddle
-            case Constants.LowerBoundIdentifier: print("hit lower bound")
+            case Constants.LowerBoundIdentifier: restart()
             default: // collides on the brick
                 removeBrickFromView(id)
                 break
@@ -82,7 +82,6 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     }
     
     private var balls = [Ball]()
-    private var ballAttachments = [Ball:UIAttachmentBehavior]()
     private var bricks = [String:Brick]()
 
     // MARK: - Brick Related Properties
@@ -151,7 +150,6 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
             let identifier = Constants.BrickIdentifierPrefix + "\(index)"
             let brick = Brick(frame: CGRect.zero, color: Constants.DefaultBrickColor)
             bricks[identifier] = brick
-            gameScene.addSubview(brick)
         }
     }
     
@@ -160,7 +158,6 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
         for _ in 0..<actualNum {
             let ball = Ball(frame: CGRect.zero, color: Constants.DefaultBallColor)
             balls.append(ball)
-            gameScene.addSubview(ball)
             ball.attachedPaddle = paddle
         }
     }
@@ -183,6 +180,7 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
             if let brick = bricks[identifier] {
                 if brick.alpha != 0.0 {
                     brick.frame = frame
+                    gameScene.addSubview(brick)
                     behavior.addBarrier(brick.boundary, named: identifier)
                 }
             }
@@ -206,7 +204,8 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
             let origin = CGPoint(x: ballX, y: ballY)
             let frame = CGRect(origin: origin, size: Constants.DefaultBallSize)
             ball.frame = frame
-
+            print("laying out ball")
+            gameScene.addSubview(ball)
             // update the position for the next ball
             ballX += ballScale
         }
@@ -235,9 +234,6 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     private func shootBalls() {
         for ball in balls {
             if !ball.attached { continue }
-            // TODO: might not be a good place to add it to behavior
-            behavior.addItem(ball)
-            
             ball.attached = false
             // we actually shoot the ball here
             behavior.pushItem(ball)
@@ -262,4 +258,25 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
                 completion: { if $0 {  } })
         }
     }
+    
+    private func restart() {
+        // reset all bricks meaning they will appear and become barriers again.
+        for index in 0..<(numBricksPerRow*numBrickLevels) {
+            let identifier = Constants.BrickIdentifierPrefix + "\(index)"
+            if let brick = bricks[identifier] {
+                behavior.addBarrier(brick.boundary, named: identifier)
+                brick.alpha = 1.0
+            }
+        }
+        
+        // reset balls status such that they will be "re-attached" to paddle.
+        let _ = balls.map {
+            behavior.stopItem($0)
+            $0.attached = true
+        }
+        
+        // this will trigger balls' re-attachment.
+        layoutPaddle(paddleFrame)
+    }
+    
 }
