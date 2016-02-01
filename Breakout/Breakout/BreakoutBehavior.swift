@@ -34,6 +34,7 @@ class BreakoutBehavior: UIDynamicBehavior {
     }
     
     func addBarrier(path: UIBezierPath, named name: String) {
+//        print("adding barrier: \(name)")
         collider.removeBoundaryWithIdentifier(name)
         collider.addBoundaryWithIdentifier(name, forPath: path)
     }

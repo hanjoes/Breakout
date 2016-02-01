@@ -73,6 +73,7 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
         if let id = identifier as? String {
             switch id {
             case Constants.PaddleIdentifier: break // collides on the paddle
+            case Constants.LowerBoundIdentifier: print("hit lower bound")
             default: // collides on the brick
                 removeBrickFromView(id)
                 break
@@ -126,7 +127,7 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     
     // MARK: - Lower Bound Related
     
-    private var lowerBound = CustomUIBezierPath(type: .LineType, from: CGPoint.zero, to: CGPoint.zero)
+    private var lowerBound = CGRect(origin: CGPoint.zero, size: CGSize.zero)
     
     private var lowerBoundY: CGFloat {
         return gameScene.bounds.maxY - gameScene.bounds.maxY / Constants.DefaultLowerBoundHeightRatio
@@ -213,9 +214,11 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     
     private func layoutLowerBound() {
         let from = CGPoint(x: gameScene.bounds.minX, y: lowerBoundY)
-        let to = CGPoint(x: gameScene.bounds.maxX, y: lowerBoundY)
-        lowerBound = CustomUIBezierPath(type: .LineType, from: from, to: to)
-        gameScene.setPath(lowerBound, named: Constants.LowerBoundIdentifier)
+        lowerBound = CGRect(origin: from, size: CGSize(width: gameScene.bounds.width, height: 1))
+        let path = CustomUIBezierPath(rect: lowerBound)
+        path.fillColor = Constants.DefaultLowerBoundColor
+        gameScene.setPath(path, named: Constants.LowerBoundIdentifier)
+        behavior.addBarrier(path, named: Constants.LowerBoundIdentifier)
     }
     
     private func layoutPaddle(rect: CGRect) {
