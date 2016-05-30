@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
-        <!--Game-->
+        <!--Breakout View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="BreakoutViewController" customModule="Breakout" customModuleProvider="target" sceneMemberID="viewController">
@@ -35,7 +35,7 @@
                             <constraint firstItem="cTM-8u-0qx" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="iR5-ps-g6a"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Game" id="Se7-8c-dRs"/>
+                    <tabBarItem key="tabBarItem" systemItem="favorites" id="Se7-8c-dRs"/>
                     <connections>
                         <outlet property="gameScene" destination="cTM-8u-0qx" id="qkw-DD-ajZ"/>
                     </connections>
@@ -54,10 +54,10 @@
             </objects>
             <point key="canvasLocation" x="38" y="257"/>
         </scene>
-        <!--Settings-->
+        <!--Breakout Setting View Controller-->
         <scene sceneID="HZy-9d-Vmi">
             <objects>
-                <viewController id="9i4-OK-V2x" sceneMemberID="viewController">
+                <viewController id="9i4-OK-V2x" customClass="BreakoutSettingViewController" customModule="Breakout" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ypg-wK-7lL"/>
                         <viewControllerLayoutGuide type="bottom" id="7o0-gm-7zh"/>
@@ -68,6 +68,9 @@
                         <subviews>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="7Q4-rU-XW3">
                                 <rect key="frame" x="253" y="141" width="94" height="29"/>
+                                <connections>
+                                    <action selector="changeBallSpeed:" destination="9i4-OK-V2x" eventType="valueChanged" id="oiq-79-cip"/>
+                                </connections>
                             </stepper>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ball Speed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yts-YO-QMO">
                                 <rect key="frame" x="163" y="145" width="82" height="21"/>
@@ -75,14 +78,11 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f2y-TO-G2w">
-                                <rect key="frame" x="355" y="145" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="zGq-Ff-fwf">
                                 <rect key="frame" x="253" y="213" width="94" height="29"/>
+                                <connections>
+                                    <action selector="changeNumberOfBalls:" destination="9i4-OK-V2x" eventType="valueChanged" id="IAs-Dc-znx"/>
+                                </connections>
                             </stepper>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number of Balls" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8L9-Eu-9wc">
                                 <rect key="frame" x="123" y="217" width="122" height="21"/>
@@ -98,6 +98,9 @@
                             </label>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="fI0-sN-qoC">
                                 <rect key="frame" x="253" y="285" width="94" height="29"/>
+                                <connections>
+                                    <action selector="changeBounciness:" destination="9i4-OK-V2x" eventType="valueChanged" id="W2T-aH-rfA"/>
+                                </connections>
                             </stepper>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bounciness" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="syB-Vu-lEC">
                                 <rect key="frame" x="156" y="289" width="89" height="21"/>
@@ -113,6 +116,9 @@
                             </label>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="eKw-Vg-G8O">
                                 <rect key="frame" x="253" y="357" width="94" height="29"/>
+                                <connections>
+                                    <action selector="changePadSpeed:" destination="9i4-OK-V2x" eventType="valueChanged" id="rbT-rF-n06"/>
+                                </connections>
                             </stepper>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pad Speed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LQM-su-7xY">
                                 <rect key="frame" x="162" y="361" width="83" height="21"/>
@@ -122,6 +128,12 @@
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OLx-M1-kQr">
                                 <rect key="frame" x="355" y="361" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f2y-TO-G2w">
+                                <rect key="frame" x="355" y="145" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -155,7 +167,17 @@
                             <constraint firstItem="f2y-TO-G2w" firstAttribute="centerY" secondItem="7Q4-rU-XW3" secondAttribute="centerY" id="yu8-OG-ATJ"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Settings" id="RbL-1a-Pgh"/>
+                    <tabBarItem key="tabBarItem" systemItem="more" id="RbL-1a-Pgh"/>
+                    <connections>
+                        <outlet property="ballSpeedLabel" destination="f2y-TO-G2w" id="XQO-yT-CXQ"/>
+                        <outlet property="ballSpeedStepper" destination="7Q4-rU-XW3" id="3hD-q4-yVl"/>
+                        <outlet property="bouncinessLabel" destination="FPa-dN-7xi" id="N3N-Ui-iDQ"/>
+                        <outlet property="bouncinessStepper" destination="fI0-sN-qoC" id="cOG-cC-6EK"/>
+                        <outlet property="numberOfBallsLabel" destination="TDo-8n-5Wy" id="U2E-cE-HB5"/>
+                        <outlet property="numberOfBallsStepper" destination="zGq-Ff-fwf" id="lAt-7c-Oyi"/>
+                        <outlet property="padSpeedLabel" destination="OLx-M1-kQr" id="Ke9-tl-YZb"/>
+                        <outlet property="padSpeedStepper" destination="eKw-Vg-G8O" id="SWQ-RW-aY1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lm8-PC-xdC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
