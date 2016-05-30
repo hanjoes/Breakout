@@ -31,7 +31,12 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     
     let numBricksPerRow = Int(Constants.DefaultBrickNumPerRow)
     let numBrickLevels = Int(Constants.DefaultBrickLevels)
-    let numBalls = Constants.DefaultBallNum
+	var numBalls = Constants.DefaultBallNum {
+		didSet {
+			clearBalls()
+			createBalls()
+		}
+	}
     var gameInProgress = false
 
     // MARK: - Lifecycle
@@ -56,17 +61,13 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
         layoutBricks()
         layoutPaddle(paddleFrame)
     }
+	
+	override func viewWillAppear(animated: Bool) {
+		super.viewWillAppear(animated)
+		let stdDefaults = NSUserDefaults.standardUserDefaults()
+		numBalls = Int(stdDefaults.objectForKey(SettingConstants.NumberOfBallsDefaultKey) as? Double ?? SettingConstants.NumberOfBallsDefaultValue)
+	}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
     // MARK: - Collision Delegate
     
     func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying?, atPoint p: CGPoint) {
@@ -154,13 +155,19 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     }
     
     private func createBalls() {
-        let actualNum = max(min(numBalls, 10), 1)
-        for _ in 0..<actualNum {
+        for _ in 0..<numBalls {
             let ball = Ball(frame: CGRect.zero, color: Constants.DefaultBallColor)
             balls.append(ball)
             ball.attachedPaddle = paddle
         }
     }
+	
+	private func clearBalls() {
+		_ = balls.map {
+			$0.removeFromSuperview()
+		}
+		balls.removeAll()
+	}
     
     private func layoutBricks() {
         for rowNum in 0..<numBrickLevels {

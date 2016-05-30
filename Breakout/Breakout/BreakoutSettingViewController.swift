@@ -7,22 +7,20 @@
 //
 
 import UIKit
+	
+struct SettingConstants {
+	static let BallSpeedDefaultKey = "Breakout.BallSpeed"
+	static let NumberOfBallsDefaultKey = "Breakout.NumberOfBalls"
+	static let BouncinessDefaultKey = "Breakout.Bounciness"
+	static let PadSpeedDefaultKey = "Breakout.PadSpeed"
+	
+	static let BallSpeedDefaultValue = 1.0
+	static let NumberOfBallsDefaultValue = 1.0
+	static let BouncinessDefaultValue = 1.0
+	static let PadSpeedDefaultValue = 1.0
+}
 
 class BreakoutSettingViewController: UIViewController {
-	
-	// MARK: Constants
-	
-	private struct Constants {
-		static let BallSpeedDefaultKey = "Breakout.BallSpeed"
-		static let NumberOfBallsDefaultKey = "Breakout.NumberOfBalls"
-		static let BouncinessDefaultKey = "Breakout.Bounciness"
-		static let PadSpeedDefaultKey = "Breakout.PadSpeed"
-		
-		static let BallSpeedDefaultValue = 1.0
-		static let NumberOfBallsDefaultValue = 1.0
-		static let BouncinessDefaultValue = 1.0
-		static let PadSpeedDefaultValue = 1.0
-	}
 	
 	// MARK: Actions/Outlets
 
@@ -61,44 +59,44 @@ class BreakoutSettingViewController: UIViewController {
 	var ballSpeed: Double {
 		set {
 			ballSpeedLabel.text = "\(newValue)"
-			setDefault(forKey: Constants.BallSpeedDefaultKey, doubleVal: newValue)
+			setDefault(forKey: SettingConstants.BallSpeedDefaultKey, doubleVal: newValue)
 		}
 		
 		get {
-			return NSUserDefaults.standardUserDefaults().objectForKey(Constants.BallSpeedDefaultKey) as! Double
+			return NSUserDefaults.standardUserDefaults().objectForKey(SettingConstants.BallSpeedDefaultKey) as! Double
 		}
 	}
 	
 	var numberOfBalls: Double {
 		set {
 			numberOfBallsLabel.text = "\(newValue)"
-			setDefault(forKey: Constants.NumberOfBallsDefaultKey, doubleVal: newValue)
+			setDefault(forKey: SettingConstants.NumberOfBallsDefaultKey, doubleVal: newValue)
 		}
 		
 		get {
-			return NSUserDefaults.standardUserDefaults().objectForKey(Constants.NumberOfBallsDefaultKey) as! Double
+			return NSUserDefaults.standardUserDefaults().objectForKey(SettingConstants.NumberOfBallsDefaultKey) as! Double
 		}
 	}
 	
 	var bounciness: Double {
 		set {
 			bouncinessLabel.text = "\(newValue)"
-			setDefault(forKey: Constants.BouncinessDefaultKey, doubleVal: newValue)
+			setDefault(forKey: SettingConstants.BouncinessDefaultKey, doubleVal: newValue)
 		}
 		
 		get {
-			return NSUserDefaults.standardUserDefaults().objectForKey(Constants.BouncinessDefaultKey) as! Double
+			return NSUserDefaults.standardUserDefaults().objectForKey(SettingConstants.BouncinessDefaultKey) as! Double
 		}
 	}
 	
 	var padSpeed: Double {
 		set {
 			padSpeedLabel.text = "\(newValue)"
-			setDefault(forKey: Constants.PadSpeedDefaultKey, doubleVal: newValue)
+			setDefault(forKey: SettingConstants.PadSpeedDefaultKey, doubleVal: newValue)
 		}
 		
 		get {
-			return NSUserDefaults.standardUserDefaults().objectForKey(Constants.PadSpeedDefaultKey) as! Double
+			return NSUserDefaults.standardUserDefaults().objectForKey(SettingConstants.PadSpeedDefaultKey) as! Double
 		}
 	}
 	
@@ -138,10 +136,10 @@ class BreakoutSettingViewController: UIViewController {
 	}
 	
 	private func initialize() {
-		ballSpeed = getDefaultDouble(forKey: Constants.BallSpeedDefaultKey) ?? Constants.BallSpeedDefaultValue
-		numberOfBalls = getDefaultDouble(forKey: Constants.NumberOfBallsDefaultKey) ?? Constants.NumberOfBallsDefaultValue
-		bounciness = getDefaultDouble(forKey: Constants.BouncinessDefaultKey) ?? Constants.BouncinessDefaultValue
-		padSpeed = getDefaultDouble(forKey: Constants.PadSpeedDefaultKey) ?? Constants.PadSpeedDefaultValue
+		ballSpeed = getDefaultDouble(forKey: SettingConstants.BallSpeedDefaultKey) ?? SettingConstants.BallSpeedDefaultValue
+		numberOfBalls = getDefaultDouble(forKey: SettingConstants.NumberOfBallsDefaultKey) ?? SettingConstants.NumberOfBallsDefaultValue
+		bounciness = getDefaultDouble(forKey: SettingConstants.BouncinessDefaultKey) ?? SettingConstants.BouncinessDefaultValue
+		padSpeed = getDefaultDouble(forKey: SettingConstants.PadSpeedDefaultKey) ?? SettingConstants.PadSpeedDefaultValue
 	}
 
 }
