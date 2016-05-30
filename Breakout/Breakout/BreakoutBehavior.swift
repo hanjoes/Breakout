@@ -79,7 +79,7 @@ class BreakoutBehavior: UIDynamicBehavior {
         return lazilyCreatedCollider
     }()
     
-    private lazy var itemBehavior: UIDynamicItemBehavior = {
+    lazy var itemBehavior: UIDynamicItemBehavior = {
         let lazilyCreatedItemBehavior = UIDynamicItemBehavior()
         lazilyCreatedItemBehavior.elasticity = 1
         lazilyCreatedItemBehavior.friction = 0

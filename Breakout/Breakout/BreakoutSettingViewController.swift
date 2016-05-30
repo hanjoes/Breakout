@@ -16,7 +16,7 @@ struct SettingConstants {
 	
 	static let BallSpeedDefaultValue = 1.0
 	static let NumberOfBallsDefaultValue = 1.0
-	static let BouncinessDefaultValue = 1.0
+	static let BouncinessDefaultValue = 0.8
 	static let PadSpeedDefaultValue = 1.0
 }
 
@@ -108,7 +108,7 @@ class BreakoutSettingViewController: UIViewController {
 		// setup stepper properties
 		setupStepperProperties(ballSpeedStepper, minVal: 1.0, maxVal: 10.0)
 		setupStepperProperties(numberOfBallsStepper, minVal: 1.0, maxVal: 4.0)
-		setupStepperProperties(bouncinessStepper, minVal: 1.0, maxVal: 5.0)
+		setupStepperProperties(bouncinessStepper, minVal: 0.1, maxVal: 1.0, stepVal: 0.1)
 		setupStepperProperties(padSpeedStepper, minVal: 1.0, maxVal: 10.0)
 		
 		// initialize from NSUserDefaults

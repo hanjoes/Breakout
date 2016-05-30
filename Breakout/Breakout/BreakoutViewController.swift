@@ -65,7 +65,8 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
 	override func viewWillAppear(animated: Bool) {
 		super.viewWillAppear(animated)
 		let stdDefaults = NSUserDefaults.standardUserDefaults()
-		numBalls = Int(stdDefaults.objectForKey(SettingConstants.NumberOfBallsDefaultKey) as? Double ?? SettingConstants.NumberOfBallsDefaultValue)
+		numBalls = Int(stdDefaults.doubleForKey(SettingConstants.NumberOfBallsDefaultKey))
+		behavior.itemBehavior.elasticity = CGFloat(stdDefaults.doubleForKey(SettingConstants.BouncinessDefaultKey))
 	}
 
     // MARK: - Collision Delegate
