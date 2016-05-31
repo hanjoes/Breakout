@@ -67,6 +67,7 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
 		let stdDefaults = NSUserDefaults.standardUserDefaults()
 		numBalls = Int(stdDefaults.doubleForKey(SettingConstants.NumberOfBallsDefaultKey))
 		behavior.itemBehavior.elasticity = CGFloat(stdDefaults.doubleForKey(SettingConstants.BouncinessDefaultKey))
+		behavior.pushMagnitude = CGFloat(stdDefaults.doubleForKey(SettingConstants.BallSpeedDefaultKey))
 	}
 
     // MARK: - Collision Delegate
@@ -157,15 +158,16 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     
     private func createBalls() {
         for _ in 0..<numBalls {
-            let ball = Ball(frame: CGRect.zero, color: Constants.DefaultBallColor)
-            balls.append(ball)
-            ball.attachedPaddle = paddle
+            let newBall = Ball(frame: CGRect.zero, color: Constants.DefaultBallColor)
+            balls.append(newBall)
+            newBall.attachedPaddle = paddle
         }
     }
 	
 	private func clearBalls() {
 		_ = balls.map {
 			$0.removeFromSuperview()
+			self.behavior.removeItem($0)
 		}
 		balls.removeAll()
 	}
@@ -206,7 +208,6 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
         let ballScale = Constants.DefaultBallSize.width
         var ballX = firstOffsetXForBalls
         let ballY = lowerBoundY-paddleSize.height-ballScale
-//        print("bounds: \(gameScene.bounds) ballX: \(ballX)")
 
         for ball in balls.filter({ (b) -> Bool in b.attached }) {
             let origin = CGPoint(x: ballX, y: ballY)
@@ -242,12 +243,12 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
         for ball in balls {
             ball.attached = false
             // we actually shoot the ball here
+    		behavior.addItem(ball)
             behavior.pushItem(ball)
         }
     }
     
     private func updateBallsFrame() {
-//        print("frame: \(frame)")
         layoutBalls()
     }
     
@@ -256,7 +257,6 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
     }
     
     private func removeBrickFromView(id: String) {
-//        print("removing barrier for id: \(id)")
         if let brick = bricks[id] {
             behavior.removeBarrier(id)
             UIView.animateWithDuration(0.5, delay: 0.0, options: UIViewAnimationOptions.CurveEaseOut,

@@ -27,7 +27,7 @@ struct Constants {
     static let DefaultBallNumMax = 10
     static let DefaultBallSize = CGSize(width: 10, height: 10)
     static let DefaultBallColor = UIColor.redColor()
-    static let DefaultPushMagnitude: CGFloat = 0.09
+    static let DefaultPushMagnitude: CGFloat = 0.1
     /// Lower bound
     static let DefaultLowerBoundColor = UIColor.blackColor()
     static let DefaultLowerBoundHeightRatio: CGFloat = 10

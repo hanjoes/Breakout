@@ -10,7 +10,7 @@ import UIKit
 
 class BreakoutBehavior: UIDynamicBehavior {
     
-    // MARK: - API
+    // MARK: Initializers
     
     override init() {
         super.init()
@@ -18,46 +18,8 @@ class BreakoutBehavior: UIDynamicBehavior {
         addChildBehavior(itemBehavior)
         addChildBehavior(gravity)
     }
-    
-    func addItem(item: UIView) {
-        dynamicAnimator?.referenceView?.addSubview(item)
-//        gravity.addItem(item)
-        collider.addItem(item)
-        itemBehavior.addItem(item)
-    }
-    
-    func removeItem(item: UIView) {
-//        gravity.removeItem(item)
-        collider.removeItem(item)
-        itemBehavior.removeItem(item)
-        item.removeFromSuperview()
-    }
-    
-    func addBarrier(path: UIBezierPath, named name: String) {
-//        print("adding barrier: \(name)")
-        collider.removeBoundaryWithIdentifier(name)
-        collider.addBoundaryWithIdentifier(name, forPath: path)
-    }
-    
-    func removeBarrier(identifier: String) {
-        collider.removeBoundaryWithIdentifier(identifier)
-    }
-    
-    func pushItem(item: UIView) {
-        addItem(item)
-
-        let push = UIPushBehavior(items: [], mode: .Instantaneous)
-        push.magnitude = Constants.DefaultPushMagnitude
-        push.angle = randomAngle()
-        push.addItem(item)
-        
-        addChildBehavior(push)
-        push.action = {
-            [unowned self] in
-            push.removeItem(item)
-            self.removeChildBehavior(push)
-        }
-    }
+	
+	// MARK: Properties
     
     var collisionDelegate: UICollisionBehaviorDelegate? {
         didSet {
@@ -66,13 +28,9 @@ class BreakoutBehavior: UIDynamicBehavior {
             }
         }
     }
-    
-    // MARK: - Private
-    
-    private func randomAngle() -> CGFloat {
-        return 10
-    }
-    
+	
+	var pushMagnitude = Constants.DefaultPushMagnitude
+	
     private lazy var collider: UICollisionBehavior = {
         let lazilyCreatedCollider = UICollisionBehavior()
         lazilyCreatedCollider.translatesReferenceBoundsIntoBoundary = true
@@ -87,6 +45,45 @@ class BreakoutBehavior: UIDynamicBehavior {
         lazilyCreatedItemBehavior.allowsRotation = false
         return lazilyCreatedItemBehavior
     }()
-    
+	
     private var gravity = UIGravityBehavior()
+	
+	
+	// MARK: Methods
+    
+    func addItem(item: UIView) {
+        collider.addItem(item)
+        itemBehavior.addItem(item)
+    }
+    
+    func removeItem(item: UIView) {
+        collider.removeItem(item)
+        itemBehavior.removeItem(item)
+        item.removeFromSuperview()
+    }
+    
+    func addBarrier(path: UIBezierPath, named name: String) {
+        collider.removeBoundaryWithIdentifier(name)
+        collider.addBoundaryWithIdentifier(name, forPath: path)
+    }
+    
+    func removeBarrier(identifier: String) {
+        collider.removeBoundaryWithIdentifier(identifier)
+    }
+    
+    func pushItem(item: UIView) {
+		let pb = UIPushBehavior(items: [item], mode: .Instantaneous)
+		pb.magnitude = pushMagnitude
+        pb.angle = randomAngle()
+		addChildBehavior(pb)
+		
+		pb.action = {
+			self.removeChildBehavior(pb)
+			pb.removeItem(item)
+        }
+    }
+	
+    private func randomAngle() -> CGFloat {
+        return 10
+    }
 }
