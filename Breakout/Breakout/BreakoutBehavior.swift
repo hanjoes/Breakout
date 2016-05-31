@@ -78,8 +78,8 @@ class BreakoutBehavior: UIDynamicBehavior {
 		addChildBehavior(pb)
 		
 		pb.action = {
-			self.removeChildBehavior(pb)
 			pb.removeItem(item)
+			self.removeChildBehavior(pb)
         }
     }
 	

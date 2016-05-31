@@ -166,7 +166,6 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
 	
 	private func clearBalls() {
 		_ = balls.map {
-			$0.removeFromSuperview()
 			self.behavior.removeItem($0)
 		}
 		balls.removeAll()
