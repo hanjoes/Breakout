@@ -138,9 +138,13 @@ class BreakoutSettingViewController: UIViewController {
 	
 	private func initialize() {
 		ballSpeed = getDefaultDouble(forKey: SettingConstants.BallSpeedDefaultKey) ?? SettingConstants.BallSpeedDefaultValue
+		ballSpeedStepper.value = ballSpeed
 		numberOfBalls = getDefaultDouble(forKey: SettingConstants.NumberOfBallsDefaultKey) ?? SettingConstants.NumberOfBallsDefaultValue
+		numberOfBallsStepper.value = numberOfBalls
 		bounciness = getDefaultDouble(forKey: SettingConstants.BouncinessDefaultKey) ?? SettingConstants.BouncinessDefaultValue
+		bouncinessStepper.value = bounciness
 		resistence = getDefaultDouble(forKey: SettingConstants.ResistenceDefaultKey) ?? SettingConstants.ResistenceDefaultValue
+		resistenceStepper.value = resistence
 	}
 
 }
