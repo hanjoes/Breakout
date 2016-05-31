@@ -67,6 +67,7 @@ class BreakoutViewController: UIViewController, UICollisionBehaviorDelegate {
 		let stdDefaults = NSUserDefaults.standardUserDefaults()
 		numBalls = Int(stdDefaults.doubleForKey(SettingConstants.NumberOfBallsDefaultKey))
 		behavior.itemBehavior.elasticity = CGFloat(stdDefaults.doubleForKey(SettingConstants.BouncinessDefaultKey))
+		behavior.itemBehavior.resistance = CGFloat(stdDefaults.doubleForKey(SettingConstants.ResistenceDefaultKey))
 		behavior.pushMagnitude = CGFloat(stdDefaults.doubleForKey(SettingConstants.BallSpeedDefaultKey))
 	}
 

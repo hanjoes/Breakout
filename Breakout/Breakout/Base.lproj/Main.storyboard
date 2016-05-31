@@ -117,11 +117,11 @@
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="eKw-Vg-G8O">
                                 <rect key="frame" x="253" y="357" width="94" height="29"/>
                                 <connections>
-                                    <action selector="changePadSpeed:" destination="9i4-OK-V2x" eventType="valueChanged" id="rbT-rF-n06"/>
+                                    <action selector="changeResistence:" destination="9i4-OK-V2x" eventType="valueChanged" id="Iea-Mo-syv"/>
                                 </connections>
                             </stepper>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pad Speed" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LQM-su-7xY">
-                                <rect key="frame" x="162" y="361" width="83" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Resistence" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LQM-su-7xY">
+                                <rect key="frame" x="161" y="361" width="84" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -175,8 +175,8 @@
                         <outlet property="bouncinessStepper" destination="fI0-sN-qoC" id="cOG-cC-6EK"/>
                         <outlet property="numberOfBallsLabel" destination="TDo-8n-5Wy" id="U2E-cE-HB5"/>
                         <outlet property="numberOfBallsStepper" destination="zGq-Ff-fwf" id="lAt-7c-Oyi"/>
-                        <outlet property="padSpeedLabel" destination="OLx-M1-kQr" id="Ke9-tl-YZb"/>
-                        <outlet property="padSpeedStepper" destination="eKw-Vg-G8O" id="SWQ-RW-aY1"/>
+                        <outlet property="resistenceLabel" destination="OLx-M1-kQr" id="MFo-V7-w4M"/>
+                        <outlet property="resistenceStepper" destination="eKw-Vg-G8O" id="nes-z0-Lf1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lm8-PC-xdC" userLabel="First Responder" sceneMemberID="firstResponder"/>

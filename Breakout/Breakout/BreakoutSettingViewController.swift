@@ -12,12 +12,12 @@ struct SettingConstants {
 	static let BallSpeedDefaultKey = "Breakout.BallSpeed"
 	static let NumberOfBallsDefaultKey = "Breakout.NumberOfBalls"
 	static let BouncinessDefaultKey = "Breakout.Bounciness"
-	static let PadSpeedDefaultKey = "Breakout.PadSpeed"
+	static let ResistenceDefaultKey = "Breakout.Resistence"
 	
 	static let BallSpeedDefaultValue = 0.02
 	static let NumberOfBallsDefaultValue = 1.0
 	static let BouncinessDefaultValue = 0.8
-	static let PadSpeedDefaultValue = 1.0
+	static let ResistenceDefaultValue = 0.0
 }
 
 class BreakoutSettingViewController: UIViewController {
@@ -30,7 +30,7 @@ class BreakoutSettingViewController: UIViewController {
 	
 	@IBOutlet weak var bouncinessLabel: UILabel!
 	
-	@IBOutlet weak var padSpeedLabel: UILabel!
+	@IBOutlet weak var resistenceLabel: UILabel!
 	
 	// the speed of the push applied to the balls
 	@IBOutlet weak var ballSpeedStepper: UIStepper!
@@ -39,7 +39,7 @@ class BreakoutSettingViewController: UIViewController {
 	
 	@IBOutlet weak var bouncinessStepper: UIStepper!
 	
-	@IBOutlet weak var padSpeedStepper: UIStepper!
+	@IBOutlet weak var resistenceStepper: UIStepper!
 	
 	@IBAction func changeBallSpeed(sender: UIStepper) {
 		ballSpeed = sender.value
@@ -53,8 +53,8 @@ class BreakoutSettingViewController: UIViewController {
 		bounciness = sender.value
 	}
 	
-	@IBAction func changePadSpeed(sender: UIStepper) {
-		padSpeed = sender.value
+	@IBAction func changeResistence(sender: UIStepper) {
+		resistence = sender.value
 	}
 	
 	var ballSpeed: Double {
@@ -90,14 +90,14 @@ class BreakoutSettingViewController: UIViewController {
 		}
 	}
 	
-	var padSpeed: Double {
+	var resistence: Double {
 		set {
-			padSpeedLabel.text = "\(newValue)"
-			setDefault(forKey: SettingConstants.PadSpeedDefaultKey, doubleVal: newValue)
+			resistenceLabel.text = "\(newValue)"
+			setDefault(forKey: SettingConstants.ResistenceDefaultKey, doubleVal: newValue)
 		}
 		
 		get {
-			return NSUserDefaults.standardUserDefaults().objectForKey(SettingConstants.PadSpeedDefaultKey) as! Double
+			return NSUserDefaults.standardUserDefaults().objectForKey(SettingConstants.ResistenceDefaultKey) as! Double
 		}
 	}
 	
@@ -110,7 +110,7 @@ class BreakoutSettingViewController: UIViewController {
 		setupStepperProperties(ballSpeedStepper, minVal: 0.02, maxVal: 0.1, stepVal: 0.02)
 		setupStepperProperties(numberOfBallsStepper, minVal: 1.0, maxVal: 4.0)
 		setupStepperProperties(bouncinessStepper, minVal: 0.1, maxVal: 1.0, stepVal: 0.1)
-		setupStepperProperties(padSpeedStepper, minVal: 1.0, maxVal: 10.0)
+		setupStepperProperties(resistenceStepper, minVal: 0.0, maxVal: 0.8, stepVal: 0.1)
 		
 		// initialize from NSUserDefaults
 		initialize()
@@ -140,7 +140,7 @@ class BreakoutSettingViewController: UIViewController {
 		ballSpeed = getDefaultDouble(forKey: SettingConstants.BallSpeedDefaultKey) ?? SettingConstants.BallSpeedDefaultValue
 		numberOfBalls = getDefaultDouble(forKey: SettingConstants.NumberOfBallsDefaultKey) ?? SettingConstants.NumberOfBallsDefaultValue
 		bounciness = getDefaultDouble(forKey: SettingConstants.BouncinessDefaultKey) ?? SettingConstants.BouncinessDefaultValue
-		padSpeed = getDefaultDouble(forKey: SettingConstants.PadSpeedDefaultKey) ?? SettingConstants.PadSpeedDefaultValue
+		resistence = getDefaultDouble(forKey: SettingConstants.ResistenceDefaultKey) ?? SettingConstants.ResistenceDefaultValue
 	}
 
 }
